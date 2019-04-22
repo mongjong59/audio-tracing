@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		17EF217C5AC7C6A452402DC4 /* Pods_Drawing.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 02ABE0FEDB1EAC79327A287E /* Pods_Drawing.framework */; };
 		6A00A1601F1D561000DAF154 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A00A15F1F1D561000DAF154 /* Tool.swift */; };
 		6A60F7B51F180C72007231A9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A60F7B41F180C72007231A9 /* AppDelegate.swift */; };
 		6A60F7B71F180C72007231A9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A60F7B61F180C72007231A9 /* ViewController.swift */; };
@@ -18,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		02ABE0FEDB1EAC79327A287E /* Pods_Drawing.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Drawing.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		5F7649C6157AB1D16A374B9C /* Pods-Drawing.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drawing.debug.xcconfig"; path = "Target Support Files/Pods-Drawing/Pods-Drawing.debug.xcconfig"; sourceTree = "<group>"; };
 		6A00A15F1F1D561000DAF154 /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
 		6A60F7B11F180C72007231A9 /* Drawing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Drawing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6A60F7B41F180C72007231A9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -28,6 +31,7 @@
 		6A60F7C01F180C72007231A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6AA4DAD21F1D3D4C004596F9 /* SCNVector3Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SCNVector3Extensions.swift; sourceTree = "<group>"; };
 		6AE8286B1F240DE10003DCB5 /* pen.dae */ = {isa = PBXFileReference; lastKnownFileType = text.xml.dae; path = pen.dae; sourceTree = "<group>"; };
+		E25F77CA055445BB5537AB94 /* Pods-Drawing.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Drawing.release.xcconfig"; path = "Target Support Files/Pods-Drawing/Pods-Drawing.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,17 +39,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				17EF217C5AC7C6A452402DC4 /* Pods_Drawing.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1CB7B5E11D46220B2A95428C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				02ABE0FEDB1EAC79327A287E /* Pods_Drawing.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		6A60F7A81F180C72007231A9 = {
 			isa = PBXGroup;
 			children = (
 				6A60F7B31F180C72007231A9 /* Drawing */,
 				6A60F7B21F180C72007231A9 /* Products */,
+				6E46D980B89D0F0CC3608C11 /* Pods */,
+				1CB7B5E11D46220B2A95428C /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -73,6 +88,15 @@
 			path = Drawing;
 			sourceTree = "<group>";
 		};
+		6E46D980B89D0F0CC3608C11 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				5F7649C6157AB1D16A374B9C /* Pods-Drawing.debug.xcconfig */,
+				E25F77CA055445BB5537AB94 /* Pods-Drawing.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -80,6 +104,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6A60F7C31F180C72007231A9 /* Build configuration list for PBXNativeTarget "Drawing" */;
 			buildPhases = (
+				D14D256B30445E6572F3B2A5 /* [CP] Check Pods Manifest.lock */,
 				6A60F7AD1F180C72007231A9 /* Sources */,
 				6A60F7AE1F180C72007231A9 /* Frameworks */,
 				6A60F7AF1F180C72007231A9 /* Resources */,
@@ -139,6 +164,31 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D14D256B30445E6572F3B2A5 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-Drawing-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6A60F7AD1F180C72007231A9 /* Sources */ = {
@@ -287,28 +337,32 @@
 		};
 		6A60F7C41F180C72007231A9 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5F7649C6157AB1D16A374B9C /* Pods-Drawing.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = M2K2U48N8K;
+				DEVELOPMENT_TEAM = 4R3WU9J253;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Drawing/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tristan.Drawing;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qice.Drawing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		6A60F7C51F180C72007231A9 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E25F77CA055445BB5537AB94 /* Pods-Drawing.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = M2K2U48N8K;
+				DEVELOPMENT_TEAM = 4R3WU9J253;
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Drawing/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.tristan.Drawing;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qice.Drawing;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

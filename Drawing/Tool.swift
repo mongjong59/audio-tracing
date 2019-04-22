@@ -9,6 +9,7 @@
 import Foundation
 import CoreGraphics
 import SceneKit
+import AudioKit
 
 class Tool {
     
@@ -31,7 +32,6 @@ class Tool {
     }
     
     enum toolMode {
-        
         case Pen
         /*
         The pen tool draws lines
@@ -39,17 +39,20 @@ class Tool {
         Pinching should change the size of the pen
          */
         
-        case Manipulator
+        // case Manipulator
         /*
         The manipulator lets you reposition and resize nodes
         Tapping objects should add/remove them to current selection and change their color
         Pressing and holding should let you reposition the current selection
         Pinching should change the size of all nodes in the current selection
          */
+        
+        case Player
     }
     
     // MARK: - Public Class Methods
     
+    /*
     func updateSelection(withSelectedNode parentNode: SCNNode) {
         if selection.contains(parentNode) {
             selection.remove(parentNode) // bad access
@@ -63,6 +66,7 @@ class Tool {
             }
         }
     }
+    */
     
     func changeMode(_ newMode: toolMode) {
         self.currentMode = newMode
@@ -70,11 +74,11 @@ class Tool {
     
     func swipe(_ recognizer: UISwipeGestureRecognizer) {
         switch recognizer.direction {
-        case UISwipeGestureRecognizerDirection.left, UISwipeGestureRecognizerDirection.right:
-            if currentMode == .Manipulator {
+        case UISwipeGestureRecognizer.Direction.left, UISwipeGestureRecognizer.Direction.right:
+            if currentMode == .Player {
                 changeMode(.Pen)
             } else {
-                changeMode(.Manipulator)
+                changeMode(.Player)
             }
         default:
             break
@@ -90,15 +94,16 @@ class Tool {
                 recognizer.scale = 1
             default: break
             }
-        case .Manipulator:
-            switch recognizer.state {
-            case .began, .changed:
-                for parentNode in selection {
-                    parentNode.scale.scaleBy(Float(recognizer.scale))
-                    recognizer.scale = 1
-                }
-            default: break
-            }
+        // case .Manipulator:
+        //    switch recognizer.state {
+        //    case .began, .changed:
+        //        for parentNode in selection {
+        //            parentNode.scale.scaleBy(Float(recognizer.scale))
+        //            recognizer.scale = 1
+        //        }
+        //    default: break
+        //    }
+        default: break
         }
     }
     
