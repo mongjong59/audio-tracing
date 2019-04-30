@@ -30,7 +30,11 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     var bufferNode: SCNNode?
     var newPointBuffer: [SCNNode]?
-    var lineNodes:[SCNNode]?
+    
+    var lineNodes: [Dictionary<String, Any>] = []
+    var playerNodeIdx: Int = 0
+    enum NodeType { case sphere, cylinder }
+    
     var oldOrientation: SCNQuaternion?
     var worldUp: SCNVector4 {
         let wUp = rootNode!.worldUp
@@ -179,12 +183,9 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                 } catch { AKLog("Errored recording.") }
             case .ended:
                 userIsDrawing = false
-                lineNodes = newPointBuffer
-                
                 micBooster.gain = 0
                 tape = recorder.audioFile!
                 player.load(audioFile: tape)
-                
                 if let _ = player.audioFile?.duration {
                     recorder.stop()
                     tape.exportAsynchronously(
@@ -200,6 +201,7 @@ class ViewController: UIViewController, ARSCNViewDelegate {
                             }
                     }
                 }
+                print(lineNodes)
             default: break
             }
         /*
@@ -277,20 +279,34 @@ class ViewController: UIViewController, ARSCNViewDelegate {
             } else {
                 let newNode = (SCNNode(geometry: SCNSphere(radius: sessTool.size)))
                 positionNode(newNode, atDist: sessTool.distanceFromCamera)
-
+                
                 newPointBuffer!.append(newNode)
                 rootNode!.addChildNode(newNode)
+                
+                var cylinderNode = SCNNode()
                 
                 if lastPoint == nil {
                     lastPoint = newNode
                 } else {
-                    let cylinderNode = cylinderFrom(vector: lastPoint!.position, toVector: newNode.position)
+                    cylinderNode = cylinderFrom(
+                        vector: lastPoint!.position, toVector: newNode.position
+                    )
                     cylinderNode.position = calculateGlobalAverage([lastPoint!, newNode])
-                    cylinderNode.look(at: newNode.position, up: rootNode!.worldUp, localFront: rootNode!.worldUp)
+                    cylinderNode.look(
+                        at: newNode.position,
+                        up: rootNode!.worldUp,
+                        localFront: rootNode!.worldUp
+                    )
                     rootNode!.addChildNode(cylinderNode)
                     newPointBuffer!.append(cylinderNode)
                     lastPoint = newNode
                 }
+                let nodeInfo = [
+                    "node": newNode,
+                    "cylinder": cylinderNode,
+                    "recordingTime": recorder.recordedDuration,
+                ] as [String : Any]
+                lineNodes.append(nodeInfo)
             }
         } else {
             if bufferNode != nil {
@@ -319,26 +335,43 @@ class ViewController: UIViewController, ARSCNViewDelegate {
     
     func updateListen() {
         if !userIsDrawing {
-            if lineNodes != nil {
-                var shouldPlay = false
-                for point in lineNodes! {
-                    let pointPosition = point.presentation.worldPosition
-                    let pointPositionGLK = SCNVector3ToGLKVector3(pointPosition)
-                    let toolPosition = sessTool.toolNode!.presentation.worldPosition
-                    let toolPositionGLK = SCNVector3ToGLKVector3(toolPosition)
-                    let distance = GLKVector3Distance(pointPositionGLK, toolPositionGLK)
-                    if distance < 0.04 {
-                        shouldPlay = true
-                        break
+            var shouldPlay = false
+
+            if lineNodes.count > 0 && playerNodeIdx < lineNodes.count {
+                let nodeInfo = lineNodes[playerNodeIdx]
+                let playerNode = nodeInfo["node"] as! SCNNode
+                let playerNodePosition = playerNode.presentation.worldPosition
+                let playerNodePositionGLK = SCNVector3ToGLKVector3(playerNodePosition)
+                let toolPosition = sessTool.toolNode!.presentation.worldPosition
+                let toolPositionGLK = SCNVector3ToGLKVector3(toolPosition)
+                let distance = GLKVector3Distance(playerNodePositionGLK, toolPositionGLK)
+                let recordingTime = nodeInfo["recordingTime"] as! Double
+                print(recordingTime)
+                let nextPlayerTime = recordingTime + 0.1
+                if distance < 0.1 && player.currentTime <= nextPlayerTime {
+                    shouldPlay = true
+                    print(player.currentTime)
+                    playerNode.geometry?.firstMaterial?.diffuse.contents = UIColor.darkGray
+                    let playerCylinderNode = nodeInfo["cylinder"] as! SCNNode
+                    playerCylinderNode.geometry?.firstMaterial?.diffuse.contents = UIColor.darkGray
+                    if player.currentTime - nextPlayerTime < 0.01  {
+                        playerNodeIdx += 1
                     }
-                }
-                if shouldPlay {
-                    player.isPaused ? player.resume() : player.play()
-                } else {
-                    if player.isPlaying { player.pause() }
                 }
             }
             
+            if playerNodeIdx == lineNodes.count {
+                player.stop()
+                
+            }
+            
+            if shouldPlay {
+                if !player.isPlaying {
+                    player.isPaused ? player.resume() : player.play()
+                }
+            } else {
+                if player.isPlaying { player.pause() }
+            }
         }
     }
     
